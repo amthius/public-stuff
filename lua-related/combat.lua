@@ -9,12 +9,13 @@
 
 --[[
     
- Main Loadstring
+ ### Main Loadstring ###
 
+-- Settings
 shared.distance = 20    -- Distance between player and crate (Most likely useless to change.)
 shared.airdrop  = 20    -- Airdrop notification time
 shared.player   = 180   -- Player notification time
-
+-- Script
 loadstring(game:HttpGet(("https://raw.githubusercontent.com/dann0001/public-stuff/main/lua-related/combat.lua"),true))()
 
 ]]--
