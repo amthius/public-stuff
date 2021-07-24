@@ -9,7 +9,7 @@ shared.active = true
 warn("Auto Airdrop Pickup Loaded")
 
 local bindable = Instance.new("BindableFunction")
-local distance = 20
+local distance = 30
 
 function bindable.OnInvoke(answer)
     if answer == "Yes" then
