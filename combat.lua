@@ -9,7 +9,7 @@ shared.active = true
 warn("Auto Airdrop Pickup Loaded")
 
 local bindable = Instance.new("BindableFunction")
-local distance = 30
+local distance = 20
 
 function bindable.OnInvoke(answer)
     if answer == "Yes" then
@@ -31,7 +31,7 @@ game:GetService("Workspace").Map:GetChildren()[1].ChildAdded:Connect(function(ob
     game:GetService("StarterGui"):SetCore("SendNotification", {
         Title = "Airdrop Spawned!";
         Text = "Want to teleport towards it?";
-        Duration = 10;
+        Duration = 20;
         Callback = bindable;
         Button1 = "Yes";
         Button2 = "No";
