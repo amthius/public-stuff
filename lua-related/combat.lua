@@ -1,9 +1,9 @@
 --[[
 
     Airdrop Script V.2
-        * Fix map changing, which causes script to break
-        * Make the code cleaner and more customizable
-        * Redo player grab notification
+        * Fixed map breaking script
+        * Slightly cleaner code.
+        * Added settings.
 
 ]]--
 
@@ -61,7 +61,6 @@ workspace.Map.ChildAdded:Connect(function(object)
             Button2 = "No";
         })
 
-        -- Really ugly code.
         airdrop.ChildRemoved:Connect(function(weld)
             if weld.Name == "TopWeld" then
                 
