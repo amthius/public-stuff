@@ -42,7 +42,7 @@ game:GetService("Workspace").Map:GetChildren()[1].ChildAdded:Connect(function(ob
             if weld.Name == "TopWeld" then
                 
                 for _, player in next, game:GetService("Players"):GetChildren() do
-                    local check = (object.Crate.Hitbox.Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude
+                    local check = (object.Crate.Hitbox.Position - player.Character.HumanoidRootPart.Position).magnitude
 
                     if check < distance and player.Name ~= game:GetService("Players").LocalPlayer.Name then
                            local found = player.Backpack:FindFirstChild("RPG-7")
