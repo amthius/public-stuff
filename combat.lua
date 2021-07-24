@@ -49,12 +49,12 @@ game:GetService("Workspace").Map:GetChildren()[1].ChildAdded:Connect(function(ob
                            if found then
 
                             game:GetService("StarterGui"):SetCore("SendNotification", {
-								Title = "Player obtained crate!";
-								Text = player.Name.."("..player.DisplayName..")";
-								Icon = "rbxthumb://type=AvatarHeadShot&id="..player.UserId.."&w=420&h=420";
-								Duration = 100;
-								Button1 = "Dismiss";
-							})  
+				Title = "Player obtained crate!";
+				Text = player.Name.."("..player.DisplayName..")";
+				Icon = "rbxthumb://type=AvatarHeadShot&id="..player.UserId.."&w=420&h=420";
+				Duration = 100;
+				Button1 = "Dismiss";
+			     })  
 
                         end
                     end 
