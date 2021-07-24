@@ -43,7 +43,7 @@ game:GetService("Workspace").Map:GetChildren()[1].ChildAdded:Connect(function(ob
                 
                 for _, player in next, game:GetService("Players"):GetChildren() do
                     local check = (object.Crate.Hitbox.Position - player.Character.HumanoidRootPart.Position).magnitude
-
+                    game:GetService("RunService").Heartbeat:wait()
                     if check < distance and player.Name ~= game:GetService("Players").LocalPlayer.Name then
                            local found = player.Backpack:FindFirstChild("RPG-7")
                            if found then
