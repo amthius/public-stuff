@@ -1,2 +1,2 @@
 # Information
-There really isn't that much to this repo, whatever I want public I'll end up releasing it here. Mainly for convenience, you can do whatever you want with the code. Most stuff here will probably for ROBLOX games or some other stuff I make.
+Public repo, if you modify or change anything and release it somewhere else. Give credits and don't claim it as your own, you will look like a fool. Other than that you're free to do whatever with it, even learn something new!
