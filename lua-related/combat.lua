@@ -39,7 +39,7 @@ function bindable.OnInvoke(answer)
                 for i = 1, 50 do
                     game:GetService("RunService").Heartbeat:wait()
                     game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = object.Crate.Hitbox.CFrame
-                    --fireproximityprompt(object.Crate.Hitbox.ProximityPrompt, 10)       
+                    fireproximityprompt(object.Crate.Hitbox.ProximityPrompt, 10)       
                 end
             end
         end
@@ -65,7 +65,7 @@ workspace.Map.ChildAdded:Connect(function(object)
 
                 for _, player in next, game:GetService("Players"):GetChildren() do
                     local check = (airdrop.Crate.Hitbox.Position - player.Character.HumanoidRootPart.Position).magnitude
-                    if check < shared.distance then
+                    if check < shared.distance and player.Name ~= game:GetService("Players").LocalPlayer.Name then
                         wait()
                         local found = player.Backpack:FindFirstChild("RPG-7")
                         if found then
