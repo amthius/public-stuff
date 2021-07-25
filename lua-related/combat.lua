@@ -34,15 +34,14 @@ local bindable = Instance.new("BindableFunction")
 
 function bindable.OnInvoke(answer)
     if answer == "Yes" then
-        for _, object in next, game:GetService("Workspace").Map:GetChildren()[1]:GetChildren() do
-            if object.Name == "Airdrop" then
-                for i = 1, 50 do
-                    game:GetService("RunService").Heartbeat:wait()
-                    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = object.Crate.Hitbox.CFrame
-                    fireproximityprompt(object.Crate.Hitbox.ProximityPrompt, 10)       
-                end
-            end
-        end
+        local air_drop = game:GetService("Workspace").Map:GetChildren()[1]:FindFirstChild("Airdrop")
+        
+        repeat
+            game:GetService("RunService").Heartbeat:wait()
+            game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = air_drop.Crate.Hitbox.CFrame
+            fireproximityprompt(air_drop.Crate.Hitbox.ProximityPrompt, 10)
+        until not air_drop:FindFirstChild("TopWeld")
+
     end
 end
 
@@ -59,7 +58,6 @@ workspace.Map.ChildAdded:Connect(function(object)
             Button2 = "No";
         })
 
-        -- Really ugly code.
         airdrop.ChildRemoved:Connect(function(weld)
             if weld.Name == "TopWeld" then
 
