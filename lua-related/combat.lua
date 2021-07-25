@@ -1,16 +1,14 @@
 --[[
-
     Airdrop Script V.2
         * Fixed map breaking script
         * Slightly cleaner code.
         * Added settings.
-
 ]]--
 
 --[[
     
  ### Main Loadstring ###
-
+ 
 -- Settings
 shared.distance = 20    -- Distance between player and crate (Most likely useless to change.)
 shared.airdrop  = 20    -- Airdrop notification time
@@ -39,9 +37,9 @@ function bindable.OnInvoke(answer)
         for _, object in next, game:GetService("Workspace").Map:GetChildren()[1]:GetChildren() do
             if object.Name == "Airdrop" then
                 for i = 1, 50 do
-                     game:GetService("RunService").Heartbeat:wait()
-                     game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = object.Crate.Hitbox.CFrame
-                     fireproximityprompt(object.Crate.Hitbox.ProximityPrompt, 10)       
+                    game:GetService("RunService").Heartbeat:wait()
+                    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = object.Crate.Hitbox.CFrame
+                    --fireproximityprompt(object.Crate.Hitbox.ProximityPrompt, 10)       
                 end
             end
         end
@@ -61,9 +59,10 @@ workspace.Map.ChildAdded:Connect(function(object)
             Button2 = "No";
         })
 
+        -- Really ugly code.
         airdrop.ChildRemoved:Connect(function(weld)
             if weld.Name == "TopWeld" then
-                
+
                 for _, player in next, game:GetService("Players"):GetChildren() do
                     local check = (airdrop.Crate.Hitbox.Position - player.Character.HumanoidRootPart.Position).magnitude
                     if check < shared.distance then
@@ -71,13 +70,13 @@ workspace.Map.ChildAdded:Connect(function(object)
                         local found = player.Backpack:FindFirstChild("RPG-7")
                         if found then
 
-                        game:GetService("StarterGui"):SetCore("SendNotification", {
-                            Title = "Player obtained crate!";
-                            Text = player.Name.."("..player.DisplayName..")";
-                            Icon = "rbxthumb://type=AvatarHeadShot&id="..player.UserId.."&w=420&h=420";
-                            Duration = shared.player;
-                            Button1 = "Dismiss";
-                        })   
+                            game:GetService("StarterGui"):SetCore("SendNotification", {
+                                Title = "Player obtained crate!";
+                                Text = player.Name.."("..player.DisplayName..")";
+                                Icon = "rbxthumb://type=AvatarHeadShot&id="..player.UserId.."&w=420&h=420";
+                                Duration = shared.player;
+                                Button1 = "Dismiss";
+                            })   
 
                         end
                     end
@@ -89,3 +88,7 @@ workspace.Map.ChildAdded:Connect(function(object)
     end)
 end)
 
+-- Trigger event for current session.
+local current_map = game:GetService("Workspace").Map:GetChildren()[1]
+current_map.Parent = workspace
+current_map.Parent = workspace.Map
