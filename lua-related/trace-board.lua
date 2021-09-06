@@ -221,6 +221,8 @@ Set.MouseButton1Click:Connect(function()
     canvas.Size = Vector3.new(size_data.Height * ChangeScale.Text, 0.1, size_data.Width * ChangeScale.Text)
     canvas.SurfaceGui.ImageLabel.Image = new_image
 
+    canvas.SurfaceGui.ImageLabel.ImageTransparency = Opacity.Text
+
     Image.Image = new_image 
 
 end)
