@@ -58,5 +58,4 @@ end
 -- Listen to when a player is added to add to our container 
 PlayersService.PlayerAdded:Connect(function(Player)
     PlayerSetup(Player) -- Feed function (Value -> Player)
-
 end)
