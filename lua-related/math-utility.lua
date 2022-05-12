@@ -7,6 +7,11 @@ function Math.Normalize(Min, Max, Total)
 	return (Min / Max) * Total
 end
 
+--https://stackoverflow.com/a/31687097
+function Math.scaleBetween(unscaledNum, minAllowed, maxAllowed, min, max)
+	return (maxAllowed - minAllowed) * (unscaledNum - min) / (max - min) + minAllowed
+end
+
 -- http://lua-users.org/wiki/SimpleRound
 function Math.Round(num, numDecimalPlaces)
 	local mult = 10^(numDecimalPlaces or 0)
