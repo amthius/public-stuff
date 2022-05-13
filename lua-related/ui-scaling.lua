@@ -14,7 +14,7 @@
 	
 	[ScrollingFrames]
 
-	Most problematic ever, beyond atrocious to work with to make things work properly. If you use any scaling you will notice by default,
+	The most problematic UI-Instance, by default it functions well but when it comes to scaling it doesn't go well...
 	ROBLOX handles ScrollingFrames terribly where the scrollbar may break and not clamp correctly that or scrolling down may not be enough.
 	The best solution to this was by taking advantage of AutomaticCanvasSize, forcing updates by setting CanvasSize.
 	(You can read the code for the terribly written code for it down below to see how it works [line 82])
