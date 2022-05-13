@@ -44,10 +44,14 @@ local function SetTags()
 		if Constraint:FindFirstAncestor("Chat") then
 			continue
 		end
+		
 		if Constraint:IsA("UIScale") then
 			CollectionService:AddTag(Constraint, "UISCALETAG")
 		elseif Constraint:IsA("ScrollingFrame") then
 			CollectionService:AddTag(Constraint, "SCROLLINGFRAME")
+		elseif Constraint:IsA("UIStroke") then
+			CollectionService:AddTag(Constraint, "UISTROKE")
+			Constraint:SetAttribute("OriginalThickness", Constraint.Thickness)
 		end
 		
 	end
@@ -72,6 +76,10 @@ end)
 
 local function Update()
 	local X, Y = Camera.ViewportSize.X, Camera.ViewportSize.Y
+	
+	for _, UIStroke in pairs(GetTags("UISTROKE")) do
+		UIStroke.Thickness = UIStroke:GetAttribute("OriginalThickness") / scaleBetween(Y, MaxResolution, ScaledResolutionCap, MaxResolution, MinResolution) * Y
+	end
 
 	if Y < X then
 		for _, UIScale in pairs(GetTags("UISCALETAG")) do
@@ -91,7 +99,7 @@ CollectionService:GetInstanceAddedSignal("SCROLLINGFRAME"):Connect(function(Scro
 	end
 
 	InstanceTable[ScrollingFrame] = ScrollingFrame
-	
+		
 	for i=1, 2 do
 		task.wait()
 		ScrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
@@ -101,7 +109,6 @@ CollectionService:GetInstanceAddedSignal("SCROLLINGFRAME"):Connect(function(Scro
 		ScrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.None
 	end
 	
-
 	ScrollingFrame.ChildAdded:Connect(function()
 		for i=1, 2 do
 			task.wait()
@@ -126,6 +133,11 @@ CollectionService:GetInstanceAddedSignal("SCROLLINGFRAME"):Connect(function(Scro
 	
 end)
 
-game:GetService("RunService").Heartbeat:Connect(function()
+
+CollectionService:GetInstanceAddedSignal("UISCALETAG"):Connect(function()
+	Update()
+end)
+
+Camera:GetPropertyChangedSignal('ViewportSize'):Connect(function()
 	Update()
 end)
