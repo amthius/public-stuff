@@ -12,18 +12,12 @@
 	
 	Wish ROBLOX handled this for us automatically but, guess we are left to do things on our own.
 	
-	[ScrollingFrame Issues]
-	
-	Unfortunately when it comes to ScrollingFrames, it is just as bad if not worse.
-	Luckily though UIGridLayout has some unique properties that helps with the issue.
-	Since we can get the cell sizes and specific cell numbers of how many rows there are, also padding.
-	We can calculate an accurate number for the CanvasSize (Currently only for Y-Axis)
-	
-	Why not just use AbsoluteContentSize or AutomaticCanvasSize?
-	
-	Cause they are both equally as terrible, AbsoluteContentSize does do a better job however its still problematic.
-	Mostly depending on how you set it up it just doesn't seem very practical, as for AutomaticCanvasSize.
-	You might as well pretend that property doesn't exist it is beyond problematic.
+	[ScrollingFrames]
+
+	Most problematic ever, beyond atrocious to work with to make things work properly. If you use any scaling you will notice by default,
+	ROBLOX handles ScrollingFrames terribly where the scrollbar may break and not clamp correctly that or scrolling down may not be enough.
+	The best solution to this was by taking advantage of AutomaticCanvasSize, forcing updates by setting CanvasSize.
+	(You can read the code for the terribly written code for it down below to see how it works [line 82])
 	
 	[Conclusion]
 	
@@ -34,7 +28,6 @@
 	However for the many years of people complaining with UI, there just isn't really any improvement done to it.
 	
 ]]--
-
 
 local CollectionService = game:GetService("CollectionService")
 local Camera = workspace.CurrentCamera
@@ -48,10 +41,8 @@ local function SetTags()
 	for _, Constraint in pairs(Player.PlayerGui:GetDescendants()) do
 		if Constraint:IsA("UIScale") then
 			CollectionService:AddTag(Constraint, "UISCALETAG")
-		elseif Constraint:IsA("UIGridLayout") then
-			CollectionService:AddTag(Constraint, "UIGRIDLAYOUT")
-		--elseif Constraint:IsA("UIListLayout") then
-		--	CollectionService:AddTag(Constraint, "UILISTLAYOUT")
+		elseif Constraint:IsA("ScrollingFrame") then
+			CollectionService:AddTag(Constraint, "SCROLLINGFRAME")
 		end
 		
 	end
@@ -86,33 +77,44 @@ local function Update()
 			UIScale.Scale = ScaleFromResolution(X)
 		end
 	end
-	
-	for _, Layout in pairs(GetTags("UIGRIDLAYOUT")) do
-		if Layout.Parent:IsA("ScrollingFrame") then
-			
-			-- Counting up is more accurate than what ROBLOX gives you lol.
-			local CellSizeY = Layout.AbsoluteCellSize.Y
-			local CellCountY = Layout.AbsoluteCellCount.Y
-			local CellPaddingY = Layout.CellPadding.Y.Offset
-			
-			local CellsTotal1 = CellSizeY * CellCountY
-			local CellsTotal2 = CellCountY * CellPaddingY
-			
-			Layout.Parent.CanvasSize = UDim2.new(0, Layout.Parent.Size.X.Offset, 0, CellsTotal1 + CellsTotal2)
-		end
-	end
-	
-	--[[
-	
-	Currently useless, since UIListlayout lacks useful properties for determining scaling.
-	
-	for _, Layout in pairs(GetTags("UILISTLAYOUT")) do
-		if Layout.Parent:IsA("ScrollingFrame") then
-			Layout.Parent.CanvasSize = UDim2.new(0, Layout.Parent.Size.X.Offset, 0, Layout.AbsoluteContentSize.Y + 5)
-		end
-	end
-	--]]
 end
+
+CollectionService:GetInstanceAddedSignal("SCROLLINGFRAME"):Connect(function(ScrollingFrame)
+	
+	for i=1, 2 do
+		task.wait()
+		ScrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
+		ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+		local AbsoluteY, AbsoluteX = ScrollingFrame.AbsoluteCanvasSize.Y, ScrollingFrame.AbsoluteCanvasSize.X
+		ScrollingFrame.CanvasSize = UDim2.new(0, AbsoluteX, 0, AbsoluteY)
+		ScrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.None
+	end
+	
+
+	ScrollingFrame.ChildAdded:Connect(function()
+		for i=1, 2 do
+			task.wait()
+			ScrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
+			ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+			local AbsoluteY, AbsoluteX = ScrollingFrame.AbsoluteCanvasSize.Y, ScrollingFrame.AbsoluteCanvasSize.X
+			ScrollingFrame.CanvasSize = UDim2.new(0, AbsoluteX, 0, AbsoluteY)
+			ScrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.None
+		end
+	end)
+	
+	ScrollingFrame.ChildRemoved:Connect(function()
+		for i=1, 2 do
+			task.wait()
+			ScrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
+			ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+			local AbsoluteY, AbsoluteX = ScrollingFrame.AbsoluteCanvasSize.Y, ScrollingFrame.AbsoluteCanvasSize.X
+			ScrollingFrame.CanvasSize = UDim2.new(0, AbsoluteX, 0, AbsoluteY)
+			ScrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.None
+		end
+	end)
+	
+end)
+
 
 game:GetService("RunService").Heartbeat:Connect(function()
 	Update()
