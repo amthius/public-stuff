@@ -105,7 +105,6 @@ CollectionService:GetInstanceAddedSignal("SCROLLINGFRAME"):Connect(function(Scro
 	
 
 	ScrollingFrame.ChildAdded:Connect(function()
-		print("CHILD ADDED")
 		for i=1, 2 do
 			task.wait()
 			ScrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
