@@ -128,7 +128,6 @@ CollectionService:GetInstanceAddedSignal("SCROLLINGFRAME"):Connect(function(Scro
 	
 end)
 
-
 game:GetService("RunService").Heartbeat:Connect(function()
 	Update()
 end)
