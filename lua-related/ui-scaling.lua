@@ -37,8 +37,13 @@ local MaxResolution = 1080
 local MinResolution = 480
 local ScaledResolutionCap = 800
 
+local InstanceTable = {}
+
 local function SetTags()
 	for _, Constraint in pairs(Player.PlayerGui:GetDescendants()) do
+		if Constraint:FindFirstAncestor("Chat") then
+			continue
+		end
 		if Constraint:IsA("UIScale") then
 			CollectionService:AddTag(Constraint, "UISCALETAG")
 		elseif Constraint:IsA("ScrollingFrame") then
@@ -81,6 +86,14 @@ end
 
 CollectionService:GetInstanceAddedSignal("SCROLLINGFRAME"):Connect(function(ScrollingFrame)
 	
+	if InstanceTable[ScrollingFrame] then
+		return
+	end
+
+	InstanceTable[ScrollingFrame] = ScrollingFrame
+	
+	print(InstanceTable)
+	
 	for i=1, 2 do
 		task.wait()
 		ScrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
@@ -92,6 +105,7 @@ CollectionService:GetInstanceAddedSignal("SCROLLINGFRAME"):Connect(function(Scro
 	
 
 	ScrollingFrame.ChildAdded:Connect(function()
+		print("CHILD ADDED")
 		for i=1, 2 do
 			task.wait()
 			ScrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
