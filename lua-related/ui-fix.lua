@@ -39,18 +39,24 @@ Player.PlayerGui.ChildAdded:Connect(function(Object)
 	end
 end)
 
-CollectionService:GetInstanceAddedSignal("ScrollingFrame"):Connect(function(Object)
+CollectionService:GetInstanceAddedSignal("ScrollingFrame"):Connect(function(Object) task.wait()
+	local UILayout
+	
+	for _, Layout in pairs(Object:GetChildren()) do
+		if Layout:IsA("UILayout") then
+			UILayout = Layout
+			break
+		end
+	end
 	
 	local OriginalThickness = Object.ScrollBarThickness
 	
-	Object.AutomaticCanvasSize = Enum.AutomaticSize.None
-	Object.AutomaticCanvasSize = Enum.AutomaticSize.Y
 	Object.ScrollBarThickness = Camera.ViewportSize.Y * (OriginalThickness / StudioPixelsY)
+	Object.CanvasSize = UDim2.new(0, 0, 0, UILayout.AbsoluteContentSize.Y)
 	
 	Object:GetPropertyChangedSignal("AbsoluteCanvasSize"):Connect(function()
-		Object.AutomaticCanvasSize = Enum.AutomaticSize.None
-		Object.AutomaticCanvasSize = Enum.AutomaticSize.Y 
 		Object.ScrollBarThickness = Camera.ViewportSize.Y * (OriginalThickness / StudioPixelsY)
+		Object.CanvasSize = UDim2.new(0, 0, 0, UILayout.AbsoluteContentSize.Y)
 	end)
 	
 end)
