@@ -22,6 +22,8 @@ local function HandleElement(Constraint)
 		CollectionService:AddTag(Constraint, "ScrollingFrame")
 	elseif Constraint:IsA("UIStroke") then
 		CollectionService:AddTag(Constraint, "UIStroke")
+	elseif Constraint:IsA("UIPadding") then
+		CollectionService:AddTag(Constraint, "UIPadding")
 	end
 end
 
@@ -37,6 +39,24 @@ Player.PlayerGui.ChildAdded:Connect(function(Object)
 		end
 
 	end
+end)
+
+
+CollectionService:GetInstanceAddedSignal("UIPadding"):Connect(function(Object)
+	local OriginalSizes = {
+		PaddingBottom = Object.PaddingBottom,
+		PaddingLeft = Object.PaddingLeft,
+		PaddingRight = Object.PaddingRight,
+		PaddingTop = Object.PaddingTop
+	}
+	
+	Object.Parent:GetPropertyChangedSignal("AbsoluteSize"):Connect(function()
+		
+		for Property, Value in pairs(OriginalSizes) do
+			Object[Property] = UDim.new(0, Camera.ViewportSize.Y * (Value.Offset / StudioPixelsY)) 
+		end
+		
+	end)
 end)
 
 CollectionService:GetInstanceAddedSignal("ScrollingFrame"):Connect(function(Object) task.wait()
