@@ -5,13 +5,9 @@ local StudioPixelsY = 699
 
 Player.PlayerGui.ScreenOrientation = Enum.ScreenOrientation.LandscapeLeft
 
-local function Tagged(String)
-	return CollectionService:GetTagged(String)
-end
-
 local function GetObjectsByName(Location)
 	local Temp = {}
-	for i,v in ipairs(Location:GetChildren()) do
+	for _,v in ipairs(Location:GetChildren()) do
 		Temp[v.Name] = v
 	end
 	return Temp
@@ -49,44 +45,44 @@ CollectionService:GetInstanceAddedSignal("UIPadding"):Connect(function(Object)
 		PaddingRight = Object.PaddingRight,
 		PaddingTop = Object.PaddingTop
 	}
-	
+
 	Object.Parent:GetPropertyChangedSignal("AbsoluteSize"):Connect(function()
-		
+
 		for Property, Value in pairs(OriginalSizes) do
 			Object[Property] = UDim.new(0, Camera.ViewportSize.Y * (Value.Offset / StudioPixelsY)) 
 		end
-		
+
 	end)
 end)
 
 CollectionService:GetInstanceAddedSignal("ScrollingFrame"):Connect(function(Object) task.wait()
 	local UILayout
-	
+
 	for _, Layout in pairs(Object:GetChildren()) do
 		if Layout:IsA("UILayout") then
 			UILayout = Layout
 			break
 		end
 	end
-	
+
 	local OriginalThickness = Object.ScrollBarThickness
-	
+
 	Object.ScrollBarThickness = Camera.ViewportSize.Y * (OriginalThickness / StudioPixelsY)
 	Object.CanvasSize = UDim2.new(0, 0, 0, UILayout.AbsoluteContentSize.Y)
-	
+
 	Object:GetPropertyChangedSignal("AbsoluteCanvasSize"):Connect(function()
 		Object.ScrollBarThickness = Camera.ViewportSize.Y * (OriginalThickness / StudioPixelsY)
 		Object.CanvasSize = UDim2.new(0, 0, 0, UILayout.AbsoluteContentSize.Y)
 	end)
-	
+
 end)
 
 CollectionService:GetInstanceAddedSignal("UIStroke"):Connect(function(Object)
 	local OriginalThickness = Object.Thickness
 	Object.Thickness = Camera.ViewportSize.Y * (OriginalThickness / StudioPixelsY)
-	
+
 	Object.Parent:GetPropertyChangedSignal("AbsoluteSize"):Connect(function()
 		Object.Thickness = Camera.ViewportSize.Y * (OriginalThickness / StudioPixelsY)
 	end)
-	
+
 end)
