@@ -3,7 +3,7 @@ local Camera = workspace.CurrentCamera
 local Player = game:GetService("Players").LocalPlayer
 local StudioPixelsY = 699
 
-Player.PlayerGui.ScreenOrientation = Enum.ScreenOrientation.LandscapeLeft
+local Items = {}
 
 local function GetObjectsByName(Location)
 	local Temp = {}
@@ -37,8 +37,14 @@ Player.PlayerGui.ChildAdded:Connect(function(Object)
 	end
 end)
 
-
 CollectionService:GetInstanceAddedSignal("UIPadding"):Connect(function(Object)
+		
+	if not Items[Object] then
+		Items[Object] = true
+	else
+		return
+	end
+		
 	local OriginalSizes = {
 		PaddingBottom = Object.PaddingBottom,
 		PaddingLeft = Object.PaddingLeft,
@@ -57,6 +63,12 @@ end)
 
 CollectionService:GetInstanceAddedSignal("ScrollingFrame"):Connect(function(Object) task.wait()
 	local UILayout
+
+	if not Items[Object] then
+		Items[Object] = true
+	else
+		return
+	end
 
 	for _, Layout in pairs(Object:GetChildren()) do
 		if Layout:IsA("UILayout") then
@@ -78,6 +90,14 @@ CollectionService:GetInstanceAddedSignal("ScrollingFrame"):Connect(function(Obje
 end)
 
 CollectionService:GetInstanceAddedSignal("UIStroke"):Connect(function(Object)
+
+	if not Items[Object] then
+		Items[Object] = true
+	else
+		return
+	end
+
+
 	local OriginalThickness = Object.Thickness
 	Object.Thickness = Camera.ViewportSize.Y * (OriginalThickness / StudioPixelsY)
 
