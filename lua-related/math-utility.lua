@@ -3,12 +3,12 @@
 --]]
 local Math = {}
 
-function Math.Normalize(Min, Max, Total)
-	return (Min / Max) * Total
+function Math.Normalize(min, max, total)
+	return (min / max) * total
 end
 
 --https://stackoverflow.com/a/31687097
-function Math.scaleBetween(unscaledNum, minAllowed, maxAllowed, min, max)
+function Math.ScaleBetween(unscaledNum, minAllowed, maxAllowed, min, max)
 	return (maxAllowed - minAllowed) * (unscaledNum - min) / (max - min) + minAllowed
 end
 
@@ -18,8 +18,13 @@ function Math.Round(num, numDecimalPlaces)
 	return math.floor(num * mult + 0.5) / mult
 end
 
-function Math.RoundF(Number, DecimalPlaces)
-	return tonumber(string.format("%".."."..tostring(DecimalPlaces).."f", Number))
+function Math.RoundF(number, decimalPlaces)
+	return tonumber(string.format("%".."."..tostring(decimalPlaces).."f", number))
+end
+
+function Math.SubRemainder(number, amount)
+    local subtracted = math.min(number, amount)
+    return subtracted > 0 and subtracted or 0
 end
 
 return Math
